@@ -10,12 +10,12 @@ import Dashboard from "./pages/Dashboard";
 import { useUserContext } from "./contexts/UserProvider";
 
 const Routes = () => {
-  const { state } = useUserContext();
+  const { state, dispatch } = useUserContext();
 
   return (
     <Switch>
       <Route exact path="/login">
-        <Login />
+        {!state.user ? <Login /> : <Redirect to="/dashboard" />}
       </Route>
       <Route exact path="/signup">
         <SignUp />
