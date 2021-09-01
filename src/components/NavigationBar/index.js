@@ -14,16 +14,16 @@ import CategoryMenu from "./CategoryMenu";
 import charityLogo from "../../assets/images/charityLogo.png";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: "yellow",
-  },
+  root: {},
   navbar: {
+    padding: 10,
     backgroundColor: "#353535",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-around",
   },
   navButton: {
+    fontSize: "1.2rem",
     color: "white",
     "&:hover": {
       color: "#D3D9D9",
@@ -141,10 +141,16 @@ const NavigationBar = () => {
                 Home
               </Button>
             )}
-            <Button color="inherit" href="/events/all">
+            <Button
+              className={classes.navButton}
+              color="inherit"
+              href="/events/all"
+            >
               Events
             </Button>
-            <Button color="inherit">SORT:</Button>
+            <Button className={classes.navButton} color="inherit">
+              SORT:
+            </Button>
             <CategoryMenu />
 
             {state.user ? (
