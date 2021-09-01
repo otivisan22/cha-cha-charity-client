@@ -15,7 +15,7 @@ const Routes = () => {
   return (
     <Switch>
       <Route exact path="/login">
-        <Login />
+        {!state.user ? <Login /> : <Redirect to="/dashboard" />}
       </Route>
       <Route exact path="/signup">
         <SignUp />
