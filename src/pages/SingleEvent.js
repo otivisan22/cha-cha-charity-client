@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
   eventName: {
     color: "#f0f0f0",
     position: "absolute",
+    textShadow: "2px 2px 1px #353535",
     top: "30%",
     left: "50%",
     transform: "translateX(-50%) translateY(-50%)",
