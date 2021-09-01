@@ -3,16 +3,8 @@
   flex-wrap: wrap;
   flex-direction: row;
   padding: 20px;
-  border: 3rem;
   align-self: center;
   justify-content: center;
   align-items: center;
-}
-
-@media screen and (max-width: 768px) {
-  .main-content {
-    margin-top: 0;
-    margin-right: 0;
-    margin-left: 0;
-  }
+  margin: auto;
 }

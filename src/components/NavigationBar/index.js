@@ -14,9 +14,7 @@ import CategoryMenu from "./CategoryMenu";
 import charityLogo from "../../assets/images/charityLogo.png";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: "yellow",
-  },
+  root: {},
   navbar: {
     padding: 10,
     backgroundColor: "#353535",

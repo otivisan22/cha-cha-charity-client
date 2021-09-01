@@ -17,8 +17,6 @@ import { useUserContext } from "../../contexts/UserProvider";
 
 import AcknowledgementModal from "../AcknowledgementModal";
 
-import "./eventcard.css";
-
 const useStyles = makeStyles({
   root: {
     maxWidth: 400,
