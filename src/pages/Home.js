@@ -10,7 +10,6 @@ import Typography from "@material-ui/core/Typography";
 import CategoryCard from "../components/CategoryCard/CategoryCard";
 import MainContainer from "../components/MainContainer";
 import { eventCategories } from "../data";
-import "./home.css";
 import Typed from "react-typed";
 import connect from "../assets/images/illustrations/whole-images/connect.png";
 
