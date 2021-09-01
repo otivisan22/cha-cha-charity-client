@@ -31,6 +31,12 @@ const useStyles = makeStyles((theme) => ({
   eventHeader: {
     textAlign: "center",
   },
+  textTyped: {
+    fontSize: "2.5rem",
+    fontWeight: 600,
+    color: "#353535",
+    textTransform: "uppercase",
+  },
 }));
 
 const Home = () => {
@@ -46,7 +52,7 @@ const Home = () => {
         {isDesktop && <img src={connect} alt="connect" />}
         <Typography>
           <Typed
-            className="text-typed"
+            className={classes.textTyped}
             strings={[
               "We only have what we give",
               "Cha-Cha-Charity, where charity begins!",
