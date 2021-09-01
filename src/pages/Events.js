@@ -7,7 +7,6 @@ import EventCard from "../components/EventCard";
 import { useParams } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { MOBILE_BREAKPOINT } from "../mediaQueries";
-import "./home.css";
 
 const Events = () => {
   const { state } = useUserContext();
