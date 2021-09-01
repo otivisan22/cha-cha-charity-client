@@ -1,7 +1,9 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { useHistory, useParams } from "react-router";
+// import { useHistory } from "react-router";
+import { useParams } from "react-router";
 import { EVENT } from "../graphql/queries";
-import LoaderSpinner from "../components/Loader/LoaderSpinner";
+import { useMediaQuery } from "react-responsive";
+import { MOBILE_BREAKPOINT } from "../mediaQueries";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
@@ -14,30 +16,32 @@ import LocationOnRoundedIcon from "@material-ui/icons/LocationOn";
 import EventRoundedIcon from "@material-ui/icons/EventRounded";
 import PeopleRoundedIcon from "@material-ui/icons/PeopleRounded";
 import AccessTimeRoundedIcon from "@material-ui/icons/AccessTimeRounded";
-import FaceRoundedIcon from "@material-ui/icons/FaceRounded";
 
 import "./singleevent.css";
 import { SIGNUPTOEVENT } from "../graphql/mutations";
 import { useUserContext } from "../contexts/UserProvider";
 import { useState } from "react";
 import AcknowledgementModal from "../components/AcknowledgementModal";
+import Attendants from "../components/Attendants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: "center",
   },
   // top header
-  eventButton: {
+  eventImg: {},
+  signupButton: {
     marginTop: 20,
     backgroundColor: "#f36b7f",
     "&:hover": {
-      backgroundColor: "#f68e9d",
+      backgroundColor: "#f9d9eb",
       color: "#353535",
     },
   },
   eventName: {
     color: "#f0f0f0",
     position: "absolute",
+    textShadow: "2px 2px 1px #353535",
     top: "30%",
     left: "50%",
     transform: "translateX(-50%) translateY(-50%)",
@@ -65,21 +69,44 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#eceae9",
     padding: 20,
   },
+  buttonDiv: {
+    paddingTop: 20,
+  },
+
+  donateButton: {
+    backgroundColor: "#f8cf61",
+    "&:hover": {
+      backgroundColor: "#f9d9eb",
+      color: "#353535",
+    },
+  },
+  // grid
+
   // attendants
   attendTitle: {
     backgroundColor: "#82b5a5",
   },
   attendants: {
+    padding: 20,
     backgroundColor: "#eceae9",
-    margin: "auto",
     display: "flex",
+    flexDirection: "row",
     justifyContent: "center",
+  },
+  eachPerson: {
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+  },
+  eachMobile: {
+    margin: "0 20px 0",
   },
 }));
 
 const SingleEvent = () => {
+  const isMobile = useMediaQuery(MOBILE_BREAKPOINT);
   const classes = useStyles();
-  let history = useHistory();
+  // let history = useHistory();
   const { eventId } = useParams();
   const { state } = useUserContext();
   const [signUpToEvent] = useMutation(SIGNUPTOEVENT, {
@@ -117,16 +144,17 @@ const SingleEvent = () => {
     console.log(error);
     return <div>error!!</div>;
   }
-  // const attendants = data.event.participants;
-  // console.log(attendants);
 
   const userSignedUp = data.event.participants.find((participant) => {
     return participant.id === state.user.id;
   });
+  const allParticipants = data.event.participants;
+  const topParticipants = allParticipants.slice(0, 3);
+  console.log(topParticipants);
 
   return (
     <div className={classes.root}>
-      <section className={"header-container"}>
+      <section className="header-container">
         <header
           className="header-img"
           style={{
@@ -134,14 +162,18 @@ const SingleEvent = () => {
           }}
         ></header>
         <div className={classes.eventName}>
-          <h1>{data.event.name}</h1>
-
-          {/* this button will save the event for the user to my events */}
+          <div>
+            {isMobile ? (
+              <Typography variant="h5">{data.event.name}</Typography>
+            ) : (
+              <Typography variant="h2">{data.event.name}</Typography>
+            )}
+          </div>
 
           {!userSignedUp && (
             <Button
               onClick={handleSignUpToEvent}
-              className={classes.eventButton}
+              className={classes.signupButton}
               variant="contained"
               id={eventId}
             >
@@ -161,85 +193,178 @@ const SingleEvent = () => {
           <Grid>
             <Paper className={classes.infoHeader}>
               <div className={classes.infoDivs}>
-                <LocationOnRoundedIcon
-                  fontSize="large"
-                  style={{ color: "#f36b7f" }}
-                />
-                <Typography variant="h6">{data.event.city}</Typography>
+                {isMobile ? (
+                  <LocationOnRoundedIcon
+                    fontSize="large"
+                    style={{ color: "#f36b7f" }}
+                  />
+                ) : (
+                  <>
+                    <LocationOnRoundedIcon
+                      fontSize="large"
+                      style={{ color: "#f36b7f" }}
+                    />
+                    <Typography variant="h6">{data.event.city}</Typography>
+                  </>
+                )}
               </div>
               <div className={classes.infoDivs}>
-                <AccessTimeRoundedIcon
-                  fontSize="large"
-                  style={{ color: "#9fbfff" }}
-                />
-                <Typography variant="h6">{data.event.time}</Typography>
+                {isMobile ? (
+                  <AccessTimeRoundedIcon
+                    fontSize="large"
+                    style={{ color: "#9fbfff" }}
+                  />
+                ) : (
+                  <>
+                    <AccessTimeRoundedIcon
+                      fontSize="large"
+                      style={{ color: "#9fbfff" }}
+                    />
+                    <Typography variant="h6">{data.event.time}</Typography>
+                  </>
+                )}
               </div>
               <div className={classes.infoDivs}>
-                <EventRoundedIcon
-                  fontSize="large"
-                  style={{ color: "#f36b7f" }}
-                />
-                <Typography variant="h6">{data.event.day}</Typography>
+                {isMobile ? (
+                  <EventRoundedIcon
+                    fontSize="large"
+                    style={{ color: "#f36b7f" }}
+                  />
+                ) : (
+                  <>
+                    <EventRoundedIcon
+                      fontSize="large"
+                      style={{ color: "#f36b7f" }}
+                    />
+                    <Typography variant="h6">{data.event.day}</Typography>
+                  </>
+                )}
               </div>
               <div className={classes.infoDivs}>
-                <PeopleRoundedIcon
-                  fontSize="large"
-                  style={{ color: "#82b5a5" }}
-                />
-                <Typography variant="h6">
-                  {data.event.participants.length} participating
-                </Typography>
+                {isMobile ? (
+                  <PeopleRoundedIcon
+                    fontSize="large"
+                    style={{ color: "#82b5a5" }}
+                  />
+                ) : (
+                  <>
+                    <PeopleRoundedIcon
+                      fontSize="large"
+                      style={{ color: "#82b5a5" }}
+                    />
+                    <Typography variant="h6">
+                      {data.event.participants.length} participating
+                    </Typography>
+                  </>
+                )}
               </div>
             </Paper>
           </Grid>
-          <Grid container spacing={3} className={classes.secondaryGrid}>
-            <Grid item xs={9}>
-              <Paper className={classes.eventDescription}>
-                <Typography>{data.event.description}</Typography>
-              </Paper>
-              <Paper>
-                <article className={classes.attendTitle}>
-                  <Typography variant="h6">
-                    See who's already participating!
-                  </Typography>
-                </article>
-                <article className={classes.attendants}>
-                  <div>
-                    <FaceRoundedIcon
-                      fontSize="large"
-                      style={{ color: "#82b5a5" }}
-                    />
-                  </div>
-                  <div>
-                    <FaceRoundedIcon
-                      fontSize="large"
-                      style={{ color: "#82b5a5" }}
-                    />
-                  </div>
-                  <div>
-                    <FaceRoundedIcon
-                      fontSize="large"
-                      style={{ color: "#82b5a5" }}
-                    />
-                  </div>
-                </article>
-              </Paper>
-            </Grid>
-            <Grid item xs={3}>
-              <Paper className={classes.eventSidebar}>
-                <div>
-                  <Typography variant="h5">Hosted by</Typography>
-                  <Typography variant="h6">{data.event.organizer}</Typography>
-                  <Typography variant="h6">_______</Typography>
-                  <Typography variant="subtitle1">
-                    {data.event.street}
-                  </Typography>
-                  <Typography variant="h6">{data.event.city}</Typography>
-                  <Typography variant="h5"> {data.event.postcode}</Typography>
-                </div>
-              </Paper>
-            </Grid>
-          </Grid>
+          {isMobile ? (
+            <>
+              <Grid
+                container
+                spacing={2}
+                className={classes.secondaryGrid}
+                style={{ flexDirection: "column" }}
+              >
+                <Grid item xs={12}>
+                  <Paper className={classes.eventDescription}>
+                    <Typography>{data.event.description}</Typography>
+                  </Paper>
+                  <Paper>
+                    <article className={classes.attendTitle}>
+                      <Typography variant="h6">
+                        Already participating:
+                      </Typography>
+                    </article>
+                    <article className={classes.attendants}>
+                      {topParticipants &&
+                        topParticipants.map((participant) => (
+                          <div className={classes.eachMobile}>
+                            <Attendants imageUrl={participant.imageUrl} />
+                          </div>
+                        ))}
+                    </article>
+                  </Paper>
+                </Grid>
+                <Grid item xs={12}>
+                  <Paper className={classes.eventSidebar}>
+                    <div>
+                      <Typography variant="h5">Hosted by</Typography>
+                      <Typography variant="h6">
+                        {data.event.organizer}
+                      </Typography>
+                      <Typography variant="h6">_______</Typography>
+                      <Typography variant="subtitle1">
+                        {data.event.street}
+                      </Typography>
+                      <Typography variant="h6">{data.event.city}</Typography>
+                      <Typography variant="h5">
+                        {" "}
+                        {data.event.postcode}
+                      </Typography>
+                    </div>
+                  </Paper>
+                </Grid>
+              </Grid>
+            </>
+          ) : (
+            <>
+              <Grid container spacing={2} className={classes.secondaryGrid}>
+                <Grid item xs={9}>
+                  <Paper className={classes.eventDescription}>
+                    <Typography>{data.event.description}</Typography>
+                  </Paper>
+                  <Paper>
+                    <article className={classes.attendTitle}>
+                      <Typography variant="h6">
+                        Already participating:
+                      </Typography>
+                    </article>
+                    <article className={classes.attendants}>
+                      {topParticipants &&
+                        topParticipants.map((participant) => (
+                          <div className={classes.eachPerson}>
+                            <Attendants
+                              fullName={participant.fullName}
+                              imageUrl={participant.imageUrl}
+                            />
+                          </div>
+                        ))}
+                    </article>
+                  </Paper>
+                </Grid>
+                <Grid item xs={3}>
+                  <Paper className={classes.eventSidebar}>
+                    <div>
+                      <Typography variant="h5">Hosted by</Typography>
+                      <Typography variant="h6">
+                        {data.event.organizer}
+                      </Typography>
+                      <Typography variant="h6">_______</Typography>
+                      <Typography variant="subtitle1">
+                        {data.event.street}
+                      </Typography>
+                      <Typography variant="h6">{data.event.city}</Typography>
+                      <Typography variant="h5">
+                        {data.event.postcode}
+                      </Typography>
+                    </div>
+                    <div className={classes.buttonDiv}>
+                      <Button
+                        className={classes.donateButton}
+                        variant="contained"
+                        href="/donate"
+                      >
+                        <Typography variant="button">Donate</Typography>
+                      </Button>
+                    </div>
+                  </Paper>
+                </Grid>
+              </Grid>
+            </>
+          )}
         </div>
       </Container>
     </div>

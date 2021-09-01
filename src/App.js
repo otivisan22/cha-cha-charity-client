@@ -21,6 +21,9 @@ const theme = createTheme({
     h6: {
       fontWeight: 600,
     },
+    h2: {
+      fontWeight: 600,
+    },
   },
 });
 const httpLink = createHttpLink({

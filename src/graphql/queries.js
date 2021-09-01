@@ -26,6 +26,7 @@ export const EVENTS = gql`
         type
         fullName
         email
+        imageUrl
       }
     }
   }
@@ -61,6 +62,7 @@ export const MY_EVENTS = gql`
         type
         fullName
         email
+        imageUrl
       }
     }
   }
@@ -94,6 +96,7 @@ export const EVENT = gql`
       participants {
         id
         fullName
+        imageUrl
       }
     }
   }

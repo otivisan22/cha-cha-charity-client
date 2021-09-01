@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { useUserContext } from "../../contexts/UserProvider";
@@ -13,9 +13,9 @@ import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 
 import NewEventData from "./NewEventData";
-import UploadImage from "./UploadImage";
+// import UploadImage from "./UploadImage";
 import TermsAndConditions from "./TermsAndConditions";
-import { faGlasses } from "@fortawesome/free-solid-svg-icons";
+// import { faGlasses } from "@fortawesome/free-solid-svg-icons";
 import ImageUpload from "../ImageUpload";
 
 import { CREATEEVENT } from "../../graphql/mutations";
