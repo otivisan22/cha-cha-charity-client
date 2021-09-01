@@ -355,7 +355,7 @@ const SingleEvent = () => {
                       <Button
                         className={classes.donateButton}
                         variant="contained"
-                        href="/newEvent"
+                        href="/donate"
                       >
                         <Typography variant="button">Donate</Typography>
                       </Button>
