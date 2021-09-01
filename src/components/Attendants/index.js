@@ -9,14 +9,19 @@ import Avatar from "@material-ui/core/Avatar";
 import { useHistory } from "react-router";
 import { useUserContext } from "../../contexts/UserProvider";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   userName: {
     width: 250,
+    fontSize: "1rem",
+    fontWeight: 600,
+    padding: 5,
   },
   userAvatar: {
     alignSelf: "center",
+    width: theme.spacing(7),
+    height: theme.spacing(7),
   },
-});
+}));
 
 const Attendants = ({ fullName, imageUrl }) => {
   const classes = useStyles();
@@ -25,7 +30,9 @@ const Attendants = ({ fullName, imageUrl }) => {
     <>
       <Avatar alt={fullName} src={imageUrl} className={classes.userAvatar} />
 
-      <Typography className={classes.userName}>{fullName}</Typography>
+      <Typography variant="button" className={classes.userName}>
+        {fullName}
+      </Typography>
     </>
   );
 };

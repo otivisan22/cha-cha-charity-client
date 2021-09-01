@@ -30,11 +30,11 @@ const useStyles = makeStyles((theme) => ({
   },
   // top header
   eventImg: {},
-  eventButton: {
+  signupButton: {
     marginTop: 20,
     backgroundColor: "#f36b7f",
     "&:hover": {
-      backgroundColor: "#f68e9d",
+      backgroundColor: "#f9d9eb",
       color: "#353535",
     },
   },
@@ -68,6 +68,17 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#eceae9",
     padding: 20,
   },
+  buttonDiv: {
+    paddingTop: 20,
+  },
+
+  donateButton: {
+    backgroundColor: "#f8cf61",
+    "&:hover": {
+      backgroundColor: "#f9d9eb",
+      color: "#353535",
+    },
+  },
   // grid
 
   // attendants
@@ -82,10 +93,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   eachPerson: {
-    padding: 5,
     textAlign: "center",
     display: "flex",
     flexDirection: "column",
+  },
+  eachMobile: {
+    margin: "0 20px 0",
   },
 }));
 
@@ -159,7 +172,7 @@ const SingleEvent = () => {
           {!userSignedUp && (
             <Button
               onClick={handleSignUpToEvent}
-              className={classes.eventButton}
+              className={classes.signupButton}
               variant="contained"
               id={eventId}
             >
@@ -267,7 +280,9 @@ const SingleEvent = () => {
                     <article className={classes.attendants}>
                       {topParticipants &&
                         topParticipants.map((participant) => (
-                          <Attendants imageUrl={participant.imageUrl} />
+                          <div className={classes.eachMobile}>
+                            <Attendants imageUrl={participant.imageUrl} />
+                          </div>
                         ))}
                     </article>
                   </Paper>
@@ -334,6 +349,15 @@ const SingleEvent = () => {
                       <Typography variant="h5">
                         {data.event.postcode}
                       </Typography>
+                    </div>
+                    <div className={classes.buttonDiv}>
+                      <Button
+                        className={classes.donateButton}
+                        variant="contained"
+                        href="/newEvent"
+                      >
+                        <Typography variant="button">Donate</Typography>
+                      </Button>
                     </div>
                   </Paper>
                 </Grid>
