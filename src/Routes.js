@@ -10,7 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import { useUserContext } from "./contexts/UserProvider";
 
 const Routes = () => {
-  const { state, dispatch } = useUserContext();
+  const { state } = useUserContext();
 
   return (
     <Switch>
