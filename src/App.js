@@ -14,6 +14,9 @@ import UserProvider from "./contexts/UserProvider";
 
 import "./App.css";
 
+import useToken from "./useToken";
+import LoginForm from "./components/LoginForm";
+
 const httpLink = createHttpLink({
   uri: process.env.REACT_APP_GRAPHQL_URL || "http://localhost:4000/",
 });
@@ -35,6 +38,12 @@ const client = new ApolloClient({
 });
 
 const App = () => {
+  const { token, setToken } = useToken();
+
+  if (!token) {
+    return <LoginForm setToken={setToken} />;
+  }
+
   return (
     <div className="wrapper">
       <ApolloProvider client={client}>
