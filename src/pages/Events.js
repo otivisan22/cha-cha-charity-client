@@ -27,14 +27,10 @@ const Events = () => {
   }
 
   if (data) {
-    // const handleSearch = event => {
-    //   setSearch(event.target.value);
-    // };
-    const dynamicSearch = () => {
-      return data.events.filter((event) =>
-        event.type.toLowerCase().includes(category.toLowerCase())
-      );
-    };
+    // const dynamicSearch = () => {
+    //   return data.events.filter((event) =>
+    //     event.type.toLowerCase().includes(category.toLowerCase())
+    //   );
 
     return (
       <div>

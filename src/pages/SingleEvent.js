@@ -1,13 +1,9 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { useHistory, useParams } from "react-router";
+// import { useHistory } from "react-router";
+import { useParams } from "react-router";
 import { EVENT } from "../graphql/queries";
 import { useMediaQuery } from "react-responsive";
-import {
-  MOBILE_BREAKPOINT,
-  TABLET_BREAKPOINT,
-  DESKTOP_BREAKPOINT,
-} from "../mediaQueries";
-import LoaderSpinner from "../components/Loader/LoaderSpinner";
+import { MOBILE_BREAKPOINT } from "../mediaQueries";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
@@ -20,13 +16,13 @@ import LocationOnRoundedIcon from "@material-ui/icons/LocationOn";
 import EventRoundedIcon from "@material-ui/icons/EventRounded";
 import PeopleRoundedIcon from "@material-ui/icons/PeopleRounded";
 import AccessTimeRoundedIcon from "@material-ui/icons/AccessTimeRounded";
-import FaceRoundedIcon from "@material-ui/icons/FaceRounded";
 
 import "./singleevent.css";
 import { SIGNUPTOEVENT } from "../graphql/mutations";
 import { useUserContext } from "../contexts/UserProvider";
 import { useState } from "react";
 import AcknowledgementModal from "../components/AcknowledgementModal";
+import Attendants from "../components/Attendants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,19 +75,24 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#82b5a5",
   },
   attendants: {
+    padding: 20,
     backgroundColor: "#eceae9",
-    margin: "auto",
     display: "flex",
+    flexDirection: "row",
     justifyContent: "center",
+  },
+  eachPerson: {
+    padding: 5,
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
   },
 }));
 
 const SingleEvent = () => {
   const isMobile = useMediaQuery(MOBILE_BREAKPOINT);
-  const isTablet = useMediaQuery(TABLET_BREAKPOINT);
-  const isDesktop = useMediaQuery(DESKTOP_BREAKPOINT);
   const classes = useStyles();
-  let history = useHistory();
+  // let history = useHistory();
   const { eventId } = useParams();
   const { state } = useUserContext();
   const [signUpToEvent] = useMutation(SIGNUPTOEVENT, {
@@ -129,12 +130,13 @@ const SingleEvent = () => {
     console.log(error);
     return <div>error!!</div>;
   }
-  // const attendants = data.event.participants;
-  // console.log(attendants);
 
   const userSignedUp = data.event.participants.find((participant) => {
     return participant.id === state.user.id;
   });
+  const allParticipants = data.event.participants;
+  const topParticipants = allParticipants.slice(0, 3);
+  console.log(topParticipants);
 
   return (
     <div className={classes.root}>
@@ -259,28 +261,14 @@ const SingleEvent = () => {
                   <Paper>
                     <article className={classes.attendTitle}>
                       <Typography variant="h6">
-                        See who's already participating!
+                        Already participating:
                       </Typography>
                     </article>
                     <article className={classes.attendants}>
-                      <div>
-                        <FaceRoundedIcon
-                          fontSize="large"
-                          style={{ color: "#82b5a5" }}
-                        />
-                      </div>
-                      <div>
-                        <FaceRoundedIcon
-                          fontSize="large"
-                          style={{ color: "#82b5a5" }}
-                        />
-                      </div>
-                      <div>
-                        <FaceRoundedIcon
-                          fontSize="large"
-                          style={{ color: "#82b5a5" }}
-                        />
-                      </div>
+                      {topParticipants &&
+                        topParticipants.map((participant) => (
+                          <Attendants imageUrl={participant.imageUrl} />
+                        ))}
                     </article>
                   </Paper>
                 </Grid>
@@ -315,28 +303,19 @@ const SingleEvent = () => {
                   <Paper>
                     <article className={classes.attendTitle}>
                       <Typography variant="h6">
-                        See who's already participating!
+                        Already participating:
                       </Typography>
                     </article>
                     <article className={classes.attendants}>
-                      <div>
-                        <FaceRoundedIcon
-                          fontSize="large"
-                          style={{ color: "#82b5a5" }}
-                        />
-                      </div>
-                      <div>
-                        <FaceRoundedIcon
-                          fontSize="large"
-                          style={{ color: "#82b5a5" }}
-                        />
-                      </div>
-                      <div>
-                        <FaceRoundedIcon
-                          fontSize="large"
-                          style={{ color: "#82b5a5" }}
-                        />
-                      </div>
+                      {topParticipants &&
+                        topParticipants.map((participant) => (
+                          <div className={classes.eachPerson}>
+                            <Attendants
+                              fullName={participant.fullName}
+                              imageUrl={participant.imageUrl}
+                            />
+                          </div>
+                        ))}
                     </article>
                   </Paper>
                 </Grid>
@@ -353,7 +332,6 @@ const SingleEvent = () => {
                       </Typography>
                       <Typography variant="h6">{data.event.city}</Typography>
                       <Typography variant="h5">
-                        {" "}
                         {data.event.postcode}
                       </Typography>
                     </div>
