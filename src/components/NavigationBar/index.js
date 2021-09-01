@@ -141,7 +141,10 @@ const NavigationBar = () => {
                 Home
               </Button>
             )}
-            <Button color="inherit">See Events:</Button>
+            <Button color="inherit" href="/events/all">
+              Events
+            </Button>
+            <Button color="inherit">SORT:</Button>
             <CategoryMenu />
 
             {state.user ? (
